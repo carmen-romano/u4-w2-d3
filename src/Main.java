@@ -34,7 +34,11 @@ public class Main {
         Predicate<Product> isBooks = product -> product.getCategory().equals("Books");
 
         List<Product> isBookMoreThanFifty= allProduct.stream().filter(isBooks.and(isPriceMoreThanFifty)).toList();
-        System.out.println("Prodotti di categoria books con un prezzo superiore a 100: " + isBookMoreThanFifty);
+        System.out.println("Prodotti di categoria books con un prezzo superiore a 100:");
+        for (Product product : isBookMoreThanFifty) {
+            System.out.println("- Nome: " + product.getName() + ", Prezzo: " + product.getPrice() + ", Category: " + product.getCategory());
+        }
+
         //---------------ESERCIZIO 2---------------------------------//
 
         // Creazione clienti
@@ -43,7 +47,7 @@ public class Main {
         Customer customer3 = new Customer("Mario",2);
 
         // Creazione ordini
-        Order order1 = new Order(OrderStatus.PROCESSING, LocalDate.now(), LocalDate.now().plusDays(3), Arrays.asList(product2, product3,product6),customer1);
+        Order order1 = new Order(OrderStatus.PROCESSING, LocalDate.now(), LocalDate.now().plusDays(3), Arrays.asList(product6, product7),customer1);
         Order order2 = new Order(OrderStatus.SHIPPED, LocalDate.now().minusDays(1), LocalDate.now().plusDays(2), Arrays.asList(product5, product10), customer2);
         Order order3 = new Order(OrderStatus.SHIPPED, LocalDate.parse("2021-03-01"), LocalDate.now().plusDays(2), Arrays.asList(product5, product10), customer2);
 
@@ -52,6 +56,7 @@ public class Main {
         List<Order> ordiniPerCategoriaBaby = AllOrders.stream().filter(ordine -> ordine.getProducts().stream().anyMatch(prodotto -> prodotto.getCategory().equals("Baby"))).toList();
 
         System.out.println("Ordini categoria baby: "+ ordiniPerCategoriaBaby);
+
         //---------------ESERCIZIO 3---------------------------------//
         System.out.println("prezzo prima dello sconto: "+ product10.getPrice());
         allProduct.stream().filter(product -> product.getCategory().equals("Boy")).forEach(product -> {
@@ -68,7 +73,11 @@ public class Main {
         LocalDate endDate = LocalDate.of(2021, 4, 1);
 
         List<Order> ordiniDate = AllOrders.stream().filter(order -> order.getOrderDate().isAfter(startDate) && order.getOrderDate().isBefore(endDate)).toList();
-        System.out.println("ordini compresi fra 02/2021 e 04/2024 customer Tier2"+ordiniDate);
+        System.out.println("ordini compresi fra 02/2021 e 04/2024 customer Tier2");
+        for (Order order : ordiniDate) {
+            System.out.println("- Cliente: " + order.getCustomer().getName() + " (Tier " + order.getCustomer().getTier() + ")");
+            System.out.println("  Data dell'ordine: " + order.getOrderDate());
+        }
     }
 
 }
